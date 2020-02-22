@@ -21,13 +21,14 @@ end
 log_info("Downloading " .. APP.model.DAEMON_NAME .. "...")
 download_and_extract(APP.model.DAEMON_URL, "bin", {flattenRootDir = true, openFlags = 0})
 
-local _ok, _files = eliFs.safe_read_dir("bin")
+local _ok, _files = eliFs.safe_read_dir("bin", { returnFullPaths = true})
 ami_assert(_ok, "Failed to enumerate binaries", EXIT_APP_IO_ERROR)
 
 for _, file in ipairs(_files) do 
-    local _path = eliPath.combine("bin", file)
-    local _ok, _error = eliFs.safe_chmod(file, "rwxrwxrwx")
-    if not _ok then 
-        ami_error("Failed to set file permissions for " .. _path .. " - " .. _error, EXIT_APP_IO_ERROR)
+    if eliFs.file_type(file) == 'file' then 
+        local _ok, _error = eliFs.safe_chmod(file, "rwxrwxrwx")
+        if not _ok then 
+            ami_error("Failed to set file permissions for " .. _path .. " - " .. _error, EXIT_APP_IO_ERROR)
+        end
     end
 end
