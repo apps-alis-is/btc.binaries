@@ -28,7 +28,7 @@ for _, file in ipairs(_files) do
     if eliFs.file_type(file) == 'file' then 
         local _ok, _error = eliFs.safe_chmod(file, "rwxrwxrwx")
         if not _ok then 
-            ami_error("Failed to set file permissions for " .. _path .. " - " .. _error, EXIT_APP_IO_ERROR)
+            ami_error("Failed to set file permissions for " .. file .. " - " .. _error, EXIT_APP_IO_ERROR)
         end
     end
 end
