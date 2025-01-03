@@ -31,7 +31,7 @@ local extractArchiveFns = {
 
 local function download_and_extract(url, dst, options)
     local _tmpFile = os.tmpname()
-    local _ok, _error = net.safe_download_file(url, _tmpFile, {followRedirects = true})
+    local _ok, _error = net.safe_download_file(url, _tmpFile, {follow_redirects = true})
     if not _ok then
         fs.remove(_tmpFile)
         ami_error("Failed to download: " .. tostring(_error))
@@ -44,9 +44,9 @@ local function download_and_extract(url, dst, options)
 end
 
 log_info("Downloading " .. am.app.get_model("DAEMON_NAME") .. "...")
-download_and_extract(am.app.get_model("DAEMON_URL"), "bin", {flattenRootDir = true, openFlags = 0})
+download_and_extract(am.app.get_model("DAEMON_URL"), "bin", {flatten_root_dir = true, openFlags = 0})
 
-local _ok, _files = fs.safe_read_dir("bin", { returnFullPaths = true})
+local _ok, _files = fs.safe_read_dir("bin", { return_full_paths = true})
 ami_assert(_ok, "Failed to enumerate binaries", EXIT_APP_IO_ERROR)
 
 for _, file in ipairs(_files) do 
