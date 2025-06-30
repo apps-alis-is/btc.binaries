@@ -46,8 +46,8 @@ end
 log_info("Downloading " .. am.app.get_model("DAEMON_NAME") .. "...")
 download_and_extract(am.app.get_model("DAEMON_URL"), "bin", { flatten_root_dir = true, open_flags = 0 })
 
-local ok, files = fs.read_dir("bin", { return_full_paths = true }) --[[@as DirEntry]]
-ami_assert(ok, "Failed to enumerate binaries", EXIT_APP_IO_ERROR)
+local files, err = fs.read_dir("bin", { return_full_paths = true }) --[[@as DirEntry]]
+ami_assert(files, "Failed to enumerate binaries", EXIT_APP_IO_ERROR)
 
 for _, file in ipairs(files) do
     if fs.file_type(file) == 'file' then
